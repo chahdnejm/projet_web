@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Step Form</title>
+    <link rel="stylesheet" href="../../../../assets/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="../../../../assets/css/Front_Office/signUp.css">
+</head>
+
+<body class="bg-light p-5 text-center">
+<main class="container bg-white p-4 rounded shadow-sm">
+
+    <form id="multiStepForm" enctype="multipart/form-data">
+        <!-- Step 1 -->
+        <div class="form-step form-step-active" id="step1">
+            <div class="progress mb-4">
+                <div id="prgBar1" class="progress-bar1" style="width: 10%">10%</div>
+            </div>
+            <div class="form--header-container text-center mb-4">
+                <h1 class="form--header-title font-weight-bold">Personal Information</h1>
+                <p class="form--header-text text-muted">Tell us about you.</p>
+            </div>
+            <div class="form-group">
+                <input type="text" name="first_name" placeholder="First Name" class="form-control mb-3" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="last_name" placeholder="Last Name" class="form-control mb-3" required />
+            </div>
+            <div class="form-group">
+                <input type="date" name="date_of_birth" class="form-control mb-3" required />
+            </div>
+            <button class="form__btn btn btn-primary mt-4" type="button" onclick="showStep(2)">Next</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-step" id="step2">
+            <div class="progress mb-4">
+                <div id="prgBar2" class="progress-bar2" style="width: 40%">40%</div>
+            </div>
+            <div class="form--header-container text-center mb-4">
+                <h1 class="form--header-title font-weight-bold">Account Details</h1>
+                <p class="form--header-text text-muted">Few more informations</p>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" class="form-control mb-3" required />
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" class="form-control mb-3" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="location" placeholder="Location" class="form-control mb-3" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="mobile" placeholder="Mobile" class="form-control mb-3" required />
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="form__btn btn btn-secondary" type="button" onclick="showStep(1)">Previous</button>
+                <button class="form__btn btn btn-primary" type="button" onclick="showStep(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-step" id="step3">
+            <div class="progress mb-4">
+                <div id="prgBar3" class="progress-bar3" style="width: 90%">90%</div>
+            </div>
+            <div class="form--header-container text-center mb-4">
+                <h1 class="form--header-title font-weight-bold">Profile Setup</h1>
+                <p class="form--header-text text-muted">You are almost there!</p>
+            </div>
+            <div class="controlContainer d-flex justify-content-center">
+                <div class="form-inline">
+                    <label id="male-label" class="radio active mr-3">
+                        <img height="32" src="https://img.icons8.com/office/32/000000/person-male.png" alt="Male Icon">
+                        <p class="caption">Male</p>
+                        <input type="radio" id="male" name="gender" value="male" checked />
+                    </label>
+                    <label id="female-label" class="radio">
+                        <img height="32" src="https://img.icons8.com/office/32/000000/person-female.png" alt="Female Icon">
+                        <p class="caption">Female</p>
+                        <input type="radio" id="female" name="gender" value="female" />
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profile-picture" class="form-label">Profile Picture</label>
+                <input type="file" name="profile_picture" id="profile-picture" class="form-control mb-3"  />
+            </div>
+            <div class="form-group">
+                <select name="role" id="role" class="form-control" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="client">Client</option>
+                    <option value="beekeeper">Beekeeper</option>
+                    <option value="seller">Seller</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="form__btn btn btn-secondary" type="button" onclick="showStep(2)">Previous</button>
+                <button class="form__btn btn btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Finish Step -->
+    <div class="form-step" id="step4">
+        <div class="progress mb-4">
+            <div id="prgBar4" class="progress-bar4" style="width: 100%">100%</div>
+        </div>
+        <div class="form--header-container text-center mb-4">
+            <h1 class="form--header-title font-weight-bold">Thank You!</h1>
+            <p class="form--header-text text-muted">Your information has been successfully submitted.</p>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    //afficher les etapes du formulaires (form step active cest le css de cette partie)
+    function showStep(step) {
+        const steps = document.querySelectorAll('.form-step');
+        steps.forEach((el, index) => {
+            el.classList.toggle('form-step-active', index === step - 1);
+        });
+    }
+//
+    document.getElementById("multiStepForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(this);
+
+        fetch("../../../controller/user/addUser.php", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                console.log(data);
+                showStep(4); // Show the Thank You step
+            })
+            .catch((error) => console.error("Error:", error));
+    });
+    // Fonction pour gérer la sélection des boutons radio
+    function toggleGenderSelection() {
+        const maleLabel = document.getElementById("male-label");
+        const femaleLabel = document.getElementById("female-label");
+        const maleRadio = document.getElementById("male");
+        const femaleRadio = document.getElementById("female");
+
+        maleLabel.addEventListener("click", () => {
+            maleLabel.classList.add("active");
+            femaleLabel.classList.remove("active");
+            maleRadio.checked = true; // Sélectionner le bouton radio
+        });
+
+        femaleLabel.addEventListener("click", () => {
+            femaleLabel.classList.add("active");
+            maleLabel.classList.remove("active");
+            femaleRadio.checked = true; // Sélectionner le bouton radio
+        });
+    }
+
+    // Initialiser la fonction après le chargement de la page
+    document.addEventListener("DOMContentLoaded", toggleGenderSelection);
+
+</script>
+</body>
+
+</html>
