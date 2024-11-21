@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Details User </title>
+    <title>Edit User </title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../../../assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="../../../../assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -19,10 +19,11 @@
     <link rel="stylesheet" href="../../../../assets/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
+    //css et logo
     <link rel="stylesheet" href="../../../../assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="../../../../assets/css/Back_office/addUser.css">
 
-    <link rel="shortcut icon" href="../../../../assets/PureBuzzLogo.png" />
+    <link rel="shortcut icon" href="../../../../pages/samples/PureBuzzLogo.png" />
 
 
 </head>
@@ -37,8 +38,8 @@
                 </button>
             </div>
             <div>
-                <a class="navbar-brand brand-logo" href="index.html">
-                    <img src="../../../../assets/PureBuzzLogo.png"style="height: 80px;" alt="logo" />
+                <a class="navbar-brand brand-logo" href="../../../../index.html">
+                    <img src="../../../../assets/PureBuzzLogo.png" style="height: 80px;" alt="logo" />
                 </a>
 
             </div>
@@ -60,7 +61,7 @@
                         <img class="img-xs rounded-circle" src="../../../../assets/images/faces/face8.jpg" alt="Profile image"> </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                         <div class="dropdown-header text-center">
-                            <img class="img-md rounded-circle" src="images/faces/face8.jpg" alt="Profile image">
+                            <img class="img-md rounded-circle" src="../../../../assets/images/faces/face8.jpg" alt="Profile image">
                             <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
                             <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
                         </div>
@@ -103,19 +104,19 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="../../../../index.html">
                         <i class="mdi mdi-grid-large menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item nav-category">User Managment</li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                        <i class="menu-icon mdi mdi-table"></i>
-                        <span class="menu-title">User Mangamnets</span>
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon mdi mdi-floor-plan"></i>
+                        <span class="menu-title">User managment</span>
                         <i class="menu-arrow"></i>
                     </a>
-                    <div class="collapse" id="tables">
+                    <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="addUser.html">Add User</a></li>
                             <li class="nav-item"> <a class="nav-link" href="AllUsers.html">Get All Users</a></li>
@@ -191,12 +192,8 @@
                             <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="overview" aria-selected="true">Details user </a>
-                                    </li> <li class="nav-item">
-                                    <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="overview" aria-selected="true">Add user </a>
-                                </li> <li class="nav-item">
-                                    <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="overview" aria-selected="true">get all user </a>
-                                </li>
+                                        <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="overview" aria-selected="true">Add user </a>
+                                    </li>
 
                                 </ul>
 
@@ -216,76 +213,66 @@
                                                         </div>
                                                         <div class="table-responsive  mt-1">
                                                             <div class="form-container">
-                                                                <form id="userDetailsForm" class="form-sample">
-                                                                    <div class="row">
-                                                                        <!-- First Name -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="first-name">First Name</label>
-                                                                                <input type="text" id="first-name" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- Last Name -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="last-name">Last Name</label>
-                                                                                <input type="text" id="last-name" class="form-control" readonly>
-                                                                            </div>
+                                                                <form id="editUserForm" enctype="multipart/form-data">
+                                                                    <!-- Nom -->
+                                                                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Name" required>
+
+                                                                    <!-- Prénom -->
+                                                                    <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name" required>
+
+                                                                    <!-- Date de Naissance -->
+                                                                    <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+
+                                                                    <!-- Email -->
+                                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+
+                                                                    <!-- Mot de Passe (Hidden/Not Editable) -->
+                                                                    <div class="form-group">
+                                                                        <label for="password">Password</label>
+                                                                        <div class="input-group">
+                                                                            <input
+                                                                                    type="password"
+                                                                                    id="password"
+                                                                                    name="password"
+                                                                                    class="form-control"
+                                                                                    placeholder="Password"
+                                                                                    readonly>
+                                                                            <button
+                                                                                    type="button"
+                                                                                    id="togglePassword"
+                                                                                    class="btn btn-secondary">Show</button>
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="row">
-                                                                        <!-- Date of Birth -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="date-of-birth">Date of Birth</label>
-                                                                                <input type="text" id="date-of-birth" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- Email -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="email">Email</label>
-                                                                                <input type="text" id="email" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <!-- Role -->
+                                                                    <select id="role" name="role" class="form-control-select" disabled>
+                                                                        <option value="" disabled>Role</option>
+                                                                        <option value="beekeeper">Beekeeper</option>
+                                                                        <option value="Client">Client</option>
+                                                                        <option value="Farmer">Farmer</option>
+                                                                        <option value="Seller">Seller</option>
+                                                                    </select>
 
-                                                                    <div class="row">
-                                                                        <!-- Mobile -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="mobile">Mobile</label>
-                                                                                <input type="text" id="mobile" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- Gender -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="gender">Gender</label>
-                                                                                <input type="text" id="gender" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
 
-                                                                    <div class="row">
-                                                                        <!-- Role -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="role">Role</label>
-                                                                                <input type="text" id="role" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <!-- Location -->
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="location">Location</label>
-                                                                                <input type="text" id="location" class="form-control" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <!-- Sexe -->
+                                                                    <select id="gender" name="gender" class="form-control-select" required>
+                                                                        <option value="" disabled>Gender</option>
+                                                                        <option value="male">Men</option>
+                                                                        <option value="female">Woman</option>
+                                                                    </select>
+
+                                                                    <!-- Localisation -->
+                                                                    <input type="text" id="location" name="location" class="form-control" placeholder="Location">
+
+                                                                    <!-- Téléphone -->
+                                                                    <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Mobile">
+
+                                                                    <!-- Bouton Submit -->
+                                                                    <button type="submit" class="btn-submit">Save Changes</button>
                                                                 </form>
-                                                            </div>                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -298,58 +285,97 @@
             </div>
             <!-- content-wrapper ends -->
             <!-- partial:partials/_footer.html -->
-
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash.</span>
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
+                </div>
+            </footer>
             <!-- partial -->
         </div>
         <!-- main-panel ends -->
     </div>
-
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-    <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
-        </div>
-    </footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("password");
+        const togglePasswordButton = document.getElementById("togglePassword");
 
-    <script>
-        // Parse the user ID from the URL query string
+        // Fetch and populate user details, including unhashed password
         const params = new URLSearchParams(window.location.search);
         const userId = params.get("id");
 
         if (userId) {
-        // Fetch user details from the server
-        fetch(`../../../controller/user/getOneUser.php?id=${userId}`)
-            .then(response => response.json())
-            .then(user => {
-                if (user) {
-                    // Populate user details in the form
-                    document.getElementById("first-name").value = user.first_name;
-                    document.getElementById("last-name").value = user.last_name;
-                    document.getElementById("date-of-birth").value = user.date_of_birth;
-                    document.getElementById("email").value = user.email;
-                    document.getElementById("mobile").value = user.mobile;
-                    document.getElementById("gender").value = user.gender;
-                    document.getElementById("role").value = user.role;
-                    document.getElementById("location").value = user.location;
-                } else {
-                    alert("User not found.");
-                }
+            fetch(`../../../controller/user/getOneUser.php?id=${userId}&includePassword=true`)
+                .then(response => response.json())
+                .then(user => {
+                    if (user) {
+                        // Populate the form with user details
+                        document.getElementById("first_name").value = user.first_name;
+                        document.getElementById("last_name").value = user.last_name;
+                        document.getElementById("date_of_birth").value = user.date_of_birth;
+                        document.getElementById("email").value = user.email;
+                        document.getElementById("mobile").value = user.mobile;
+                        document.getElementById("gender").value = user.gender;
+                        document.getElementById("role").value = user.role;
+                        document.getElementById("location").value = user.location;
+                        document.getElementById("password").value = user.password;
+
+                        // Populate the password field with the unhashed password
+                    } else {
+                        alert("User not found.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching user details:", error);
+                    alert("Failed to fetch user details.");
+                });
+        } else {
+            alert("No user ID provided.");
+        }
+
+        // Toggle password visibility
+        togglePasswordButton.addEventListener("click", function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePasswordButton.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                togglePasswordButton.textContent = "Show";
+            }
+        });
+
+        // Handle form submission
+        document.getElementById("editUserForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            formData.append("id", userId);
+
+            // Send the updated data to the server
+            fetch(`../../../controller/user/updateUser.php`, {
+                method: "POST",
+                body: formData
             })
-            .catch(error => {
-                console.error("Error fetching user details:", error);
-                alert("Failed to fetch user details.");
-            });
-    } else {
-        alert("No user ID provided.");
-    }
-</script>
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert("User updated successfully!");
+                        window.location.href = "allUsers.html"; // Redirect to the users list
+                    } else {
+                        alert("Failed to update user: " + result.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error updating user:", error);
+                    alert("Failed to update user.");
+                });
+        });
+    });
 
-
-
-<!-- plugins:js -->
+</script><!-- plugins:js -->
 <script src="../../../../assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->

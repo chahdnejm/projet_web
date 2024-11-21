@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="../../../../assets/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    //css et logo
     <link rel="stylesheet" href="../../../../assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="../../../../assets/css/Back_office/addUser.css">
 
@@ -104,24 +103,22 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="../../../../index.html">
                         <i class="mdi mdi-grid-large menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item nav-category">Users Managment</li>
+                <li class="nav-item nav-category">User Managment</li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="AllUsers.html" aria-expanded="false" aria-controls="ui-basic">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <i class="menu-icon mdi mdi-floor-plan"></i>
-                        <span class="menu-title"> Users Data</span>
+                        <span class="menu-title">User managment</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="#">All Users</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="#">Statistics</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="addUser.html">Add New User</a></li>
-
+                            <li class="nav-item"> <a class="nav-link" href="addUser.html">Add User</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="AllUsers.html">Get All Users</a></li>
                         </ul>
                     </div>
                 </li>
@@ -215,50 +212,62 @@
                                                         </div>
                                                         <div class="table-responsive  mt-1">
                                                             <div class="form-container">
-                                                                <form id="userForm" enctype="multipart/form-data">
+                                                                <form id="userForm" enctype="multipart/form-data" novalidate>
                                                                     <!-- Nom -->
-                                                                    <input type="text" name="first_name" class="form-control" placeholder="Name" required>
+                                                                    <input type="text" name="first_name" class="form-control" placeholder="Name">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Prénom -->
-                                                                    <input type="text" name="last_name" class="form-control" placeholder="Last name" required>
+                                                                    <input type="text" name="last_name" class="form-control" placeholder="Last name">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Date de Naissance -->
-                                                                    <input type="date" name="date_of_birth" class="form-control" required>
+                                                                    <input type="date" name="date_of_birth" class="form-control">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Email -->
-                                                                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                                                    <input type="email" name="email" class="form-control" placeholder="Email">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Mot de Passe -->
-                                                                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                                                    <input type="password" name="password" class="form-control" placeholder="Password">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Role -->
-                                                                    <select name="role" class="form-control-select" required>
+                                                                    <select name="role" class="form-control-select">
                                                                         <option value="" disabled selected>Role</option>
                                                                         <option value="beekeeper">Beekeeper</option>
                                                                         <option value="Client">Client</option>
                                                                         <option value="Farmer">Farmer</option>
                                                                         <option value="Seller">Seller</option>
                                                                     </select>
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Sexe -->
-                                                                    <select name="gender" class="form-control-select" required>
-                                                                        <option value="" disabled selected>gender</option>
+                                                                    <select name="gender" class="form-control-select">
+                                                                        <option value="" disabled selected>Gender</option>
                                                                         <option name="gender" value="male">Men</option>
                                                                         <option name="gender" value="female">Woman</option>
                                                                     </select>
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Localisation -->
                                                                     <input type="text" name="location" class="form-control" placeholder="Location">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Photo Profil -->
-                                                                    <input type="file"  class="form-control">
+                                                                    <input type="file" name="photo" class="form-control">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Téléphone -->
                                                                     <input type="tel" name="mobile" class="form-control" placeholder="Mobile">
+                                                                    <div class="error-message"></div>
 
                                                                     <!-- Bouton Submit -->
-                                                                    <button  type="submit" class="btn-submit">Create account</button>
+                                                                    <button type="submit" class="btn-submit">Create account</button>
                                                                 </form>
+
+
 
                                                             </div>                                                        </div>
                                                     </div>
@@ -287,49 +296,109 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
+
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("userForm");
+        const errorMessages = {
+            first_name: "Name must only contain letters.",
+            last_name: "Last name must only contain letters.",
+            date_of_birth: "You must be at least 18 years old.",
+            email: "Please enter a valid email address.",
+            password: "Password must be at least 8 characters, contain a number, uppercase and lowercase letters.",
+            role: "Please select a role.",
+            gender: "Please select a gender.",
+            mobile: "Mobile number must be at least 8 digits.",
+        };
 
-    document.getElementById("userForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent default form submission
+        const validators = {
+            first_name: (value) => /^[A-Za-z]+$/.test(value),
+            last_name: (value) => /^[A-Za-z]+$/.test(value),
+            date_of_birth: (value) => {
+                if (!value) return false;
+                const today = new Date();
+                const birthDate = new Date(value);
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+                return age > 18 || (age === 18 && monthDifference >= 0);
+            },
+            email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            password: (value) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value),
+            role: (value) => value !== "",
+            gender: (value) => value !== "",
+            mobile: (value) => /^\d{8,}$/.test(value),
+        };
 
-        const formData = new FormData(this);
+        form.addEventListener("input", (e) => {
+            const input = e.target;
+            const errorDiv = input.nextElementSibling;
 
-        fetch("../../../controller/user/addUser.php", {
-            method: "POST",
-            body: formData,
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                console.log(data);
-                showStep(4); // Show the Thank You step
-            })
-            .catch((error) => console.error("Error:", error));
+            if (validators[input.name] && !validators[input.name](input.value)) {
+                errorDiv.textContent = errorMessages[input.name];
+                errorDiv.style.color = "red";
+            } else if (errorDiv) {
+                errorDiv.textContent = "";
+            }
+        });
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            let isValid = true;
+
+            [...form.elements].forEach((input) => {
+                const errorDiv = input.nextElementSibling;
+                if (validators[input.name] && !validators[input.name](input.value)) {
+                    errorDiv.textContent = errorMessages[input.name];
+                    errorDiv.style.color = "red";
+                    isValid = false;
+                } else if (errorDiv) {
+                    errorDiv.textContent = "";
+                }
+            });
+
+            if (isValid) {
+                const formData = new FormData(form);
+                fetch("../../../controller/user/addUser.php", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            alert("User created successfully!");
+                            window.location.href = "AllUsers.html";
+                        } else {
+                            alert("Error: " + (data.message || "An unexpected error occurred."));
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                        alert("Error: Unable to add user. Please try again.");
+                    });
+            }
+        });
     });
-    // Fonction pour gérer la sélection des boutons radio
 
-
-    // Initialiser la fonction après le chargement de la page
-    document.addEventListener("DOMContentLoaded", toggleGenderSelection);
-</script>
-<!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
+</script><!-- plugins:js -->
+<script src="../../../../assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
-<script src="vendors/chart.js/Chart.min.js"></script>
-<script src="vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-<script src="vendors/progressbar.js/progressbar.min.js"></script>
+<script src="../../../../assets/vendors/chart.js/Chart.min.js"></script>
+<script src="../../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="../../../../assets/vendors/progressbar.js/progressbar.min.js"></script>
 
 <!-- End plugin js for this page -->
 <!-- inject:js -->
-<script src="js/off-canvas.js"></script>
-<script src="js/hoverable-collapse.js"></script>
-<script src="js/template.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/todolist.js"></script>
+<script src="../../../../assets/js/off-canvas.js"></script>
+<script src="../../../../assets/js/hoverable-collapse.js"></script>
+<script src="../../../../assets/js/template.js"></script>
+<script src="../../../../assets/js/settings.js"></script>
+<script src="../../../../assets/js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-<script src="js/dashboard.js"></script>
-<script src="js/Chart.roundedBarCharts.js"></script>
+<script src="../../../../assets/js/dashboard.js"></script>
+<script src="../../../../assets/js/Chart.roundedBarCharts.js"></script>
 <!-- End custom js for this page-->
 </body>
 

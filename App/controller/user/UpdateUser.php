@@ -1,48 +1,70 @@
 <?php
+// Vérifier si la méthode de requête est POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        // Configuration de la base de données
-        $host = "localhost"; // Hôte
-        $dbName = "purebuzz"; // Nom de la base de données
-        $username = "root"; // Utilisateur MySQL
-        $passwordDB = ""; // Mot de passe MySQL
+    // Vérifier si l'ID de l'utilisateur est fourni
+    if (isset($_POST["id"])) {
+        $userId = $_POST["id"];
+        $firstName = $_POST["first_name"];
+        $lastName = $_POST["last_name"];
+        $dateOfBirth = $_POST["date_of_birth"];
+        $email = $_POST["email"];
+        $mobile = $_POST["mobile"];
+        $gender = $_POST["gender"];
+        $role = $_POST["role"];
+        $location = $_POST["location"];
 
-        // Connexion à la base de données avec PDO
-        $dsn = "mysql:host=$host;dbname=$dbName;charset=utf8mb4";
-        $pdo = new PDO($dsn, $username, $passwordDB);
+        try {
+            // Connexion à la base de données
+            $host = "localhost";
+            $dbName = "purebuzz";
+            $username = "root";
+            $passwordDB = "";
 
-        // Définir le mode d'erreur PDO sur Exception
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Vérifier que les données nécessaires sont envoyées
-        if (isset($_POST['id'], $_POST['name'], $_POST['email'], $_POST['tel']) && !empty($_POST['id'])) {
-            // Récupération des données POST
-            $userId = intval($_POST['id']);
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $tel = $_POST['tel'];
+            $dsn = "mysql:host=$host;dbname=$dbName;charset=utf8mb4";
+            $pdo = new PDO($dsn, $username, $passwordDB);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Préparer la requête de mise à jour
-            $stmt = $pdo->prepare("UPDATE users SET name = :name, email = :email, tel = :tel WHERE id = :id");
+            $stmt = $pdo->prepare(
+                "UPDATE users SET 
+                    first_name = :first_name,
+                    last_name = :last_name,
+                    date_of_birth = :date_of_birth,
+                    email = :email,
+                    mobile = :mobile,
+                    gender = :gender,
+                    role = :role,
+                    location = :location
+                 WHERE id = :id"
+            );
+
+            // Associer les valeurs des paramètres
+            $stmt->bindParam(':first_name', $firstName);
+            $stmt->bindParam(':last_name', $lastName);
+            $stmt->bindParam(':date_of_birth', $dateOfBirth);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':mobile', $mobile);
+            $stmt->bindParam(':gender', $gender);
+            $stmt->bindParam(':role', $role);
+            $stmt->bindParam(':location', $location);
             $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
-            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->bindParam(':tel', $tel, PDO::PARAM_STR);
 
             // Exécuter la requête
             if ($stmt->execute()) {
-                echo json_encode(["success" => true, "message" => "User updated successfully."]);
+                // Répondre avec succès
+                echo json_encode(["success" => true, "message" => "User updated successfully"]);
             } else {
-                echo json_encode(["success" => false, "message" => "Failed to update user."]);
+                // Répondre avec une erreur
+                echo json_encode(["success" => false, "message" => "Failed to update user"]);
             }
-        } else {
-            echo json_encode(["success" => false, "message" => "All fields are required (id, name, email, tel)."]);
+        } catch (PDOException $e) {
+            // Gérer les erreurs de la base de données
+            echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
         }
-    } catch (PDOException $e) {
-        // Gérer les exceptions PDO
-        echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+    } else {
+        echo json_encode(["success" => false, "message" => "User ID is required"]);
     }
 } else {
-    echo json_encode(["success" => false, "message" => "Invalid request method."]);
+    echo json_encode(["success" => false, "message" => "Invalid request method"]);
 }
 ?>
