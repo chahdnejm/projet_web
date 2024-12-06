@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="../../../../assets/css/Back_office/AllUsers.css">
     <link rel="shortcut icon" href="../../../../pages/samples/PureBuzzLogo.png" />
 
-
 </head>
 <body>
 <div class="container-scroller">
@@ -224,6 +223,16 @@
                                     </div>
                                 </div>
                             </div>
+                            /////
+                            <div class="search-bar">
+                                <input type="text" id="searchInput" placeholder="Enter User Email">
+                                <button onclick="searchByEmail()">Search</button>
+                            </div>
+
+                            <div id="searchResult">
+                                <!-- Les résultats de la recherche apparaîtront ici -->
+                            </div>
+
                             <div class="tab-content tab-content-basic">
                                 <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
 
@@ -294,6 +303,16 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+<<<<<<< Updated upstream
+=======
+<footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash.</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
+    </div>
+</footer>
+
+>>>>>>> Stashed changes
 <script>
 <!-- container-scroller -->
 document.addEventListener("DOMContentLoaded", function () {
@@ -308,6 +327,7 @@ console.error(data.error);
 return;
 }
 
+<<<<<<< Updated upstream
 // Ajouter chaque utilisateur dans le tableau
 data.forEach((user, index) => {
 const row = `
@@ -356,3 +376,139 @@ window.location.href = `getoneuser.php?id=${userId}`;
 .catch(error => console.error("Erreur :", error));
 });
 </script>
+=======
+                // Populate the table with user data
+                data.forEach((user) => {
+                    const row = `
+                    <tr>
+                        <td>
+                            <div class="form-check form-check-flat mt-0">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" value="${user.id}">
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <img src="../../images/faces/face1.jpg" alt="">
+                                <div>
+                                    <h6>${user.first_name}</h6>
+                                    <p>${user.last_name}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <h6>${user.email}</h6>
+                        </td>
+                        <td>${user.date_of_birth}</td>
+                        <td><div class="badge badge-opacity-warning">${user.role}</div></td>
+                        <td>
+                            <button class="edit" onclick="redirectToEditPage(${user.id})">Edit</button>
+                            <button class="details" onclick="viewDetails(${user.id})">Details</button>
+                            <button class="delete" onclick="deleteUser(${user.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                    tableBody.insertAdjacentHTML("beforeend", row);
+                });
+            })
+            .catch(error => console.error("Error fetching users:", error));
+    });
+
+    // Redirect to the edit page
+    function redirectToEditPage(userId) {
+        window.location.href = `editUser.html?id=${userId}`;
+    }
+
+    // View details of a user
+    function viewDetails(userId) {
+        window.location.href = `GetOneUser.html?id=${userId}`;
+    }
+
+    // Delete a user
+    function deleteUser(userId) {
+        const confirmDelete = confirm("Are you sure you want to delete this user? This action cannot be undone.");
+        if (confirmDelete) {
+            const formData = new FormData();
+            formData.append("id", userId);
+
+            fetch("../../../controller/user/deleteUser.php", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert(`Failed to delete user: ${result.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error deleting user:", error);
+                    alert("An error occurred while deleting the user.");
+                });
+        }
+    }
+
+
+</script>
+<script>
+    function redirectToEditPage(userId) {
+        // Redirige vers la page d'édition avec l'ID de l'utilisateur comme paramètre
+        window.location.href = `editUser.html?id=${userId}`;
+    }
+    function redirectToAdd(userId) {
+        // Redirige vers la page d'édition avec l'ID de l'utilisateur comme paramètre
+        window.location.href = `addUser.html`;
+    }
+    //////
+    function searchByEmail() {
+        const searchValue = document.getElementById('searchInput').value.trim().toLowerCase(); // Recherche en ignorant la casse
+        const table = document.getElementById('userTableBody'); // Table contenant les utilisateurs
+        const rows = table.getElementsByTagName('tr');
+
+        let found = false;
+
+        // Boucle à travers toutes les lignes du tableau
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const email = cells[2]?.textContent.trim().toLowerCase() || ''; // Colonne contenant l'email
+
+            // Vérifie si l'email correspond à la valeur recherchée
+            if (email === searchValue) {
+                rows[i].style.display = ''; // Affiche la ligne correspondante
+                found = true;
+            } else {
+                rows[i].style.display = 'none'; // Masque les autres lignes
+            }
+        }
+
+        if (!found) {
+            alert('No user found with this email.');
+        }
+    }
+</script>
+<!-- plugins:js -->
+<script src="../../../../assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="../../../../assets/vendors/chart.js/Chart.min.js"></script>
+<script src="../../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="../../../../assets/vendors/progressbar.js/progressbar.min.js"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="../../../../assets/js/off-canvas.js"></script>
+<script src="../../../../assets/js/hoverable-collapse.js"></script>
+<script src="../../../../assets/js/template.js"></script>
+<script src="../../../../assets/js/settings.js"></script>
+<script src="../../../../assets/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="../../../../assets/js/dashboard.js"></script>
+<script src="../../../../assets/js/Chart.roundedBarCharts.js"></script>
+
+>>>>>>> Stashed changes

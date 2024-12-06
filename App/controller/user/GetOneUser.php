@@ -30,8 +30,15 @@ if (isset($_GET['id'])) {
     // Exécutez la requête
     $stmt->execute();
 
+<<<<<<< Updated upstream
     // Récupérer les résultats
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+=======
+        // Query to fetch user details
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");//affiche id du user dans tab users
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+>>>>>>> Stashed changes
 
     // Si l'utilisateur existe
     if ($user) {
