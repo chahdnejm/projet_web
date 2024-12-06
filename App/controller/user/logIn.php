@@ -1,4 +1,7 @@
 <?php
+session_start(); // Démarre la session
+
+
 try {
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         echo json_encode(["success" => false, "message" => "Invalid request method."]);
@@ -50,4 +53,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
 }
-?>
+
